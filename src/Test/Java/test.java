@@ -1,11 +1,12 @@
-package Java;
 
-import Entity.Student;
-import Service.IStudentService;
+import Service.FoodService;
+import Utils.TimeUtil;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.sql.Timestamp;
 
 //指定bean注入的配置文件
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -14,14 +15,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class test {
 
     @Autowired
-    private IStudentService service;
+    private FoodService service;
 
     @org.junit.Test
     public void test() {
-        Student student=new Student();
-        student.setClassid(1);
-        for (Student student1 : service.selectByCondition(student)) {
-            System.out.println(student1.getName());
-        }
+    }
+    @org.junit.Test
+    public void TimeTest(){
+        Timestamp ts = TimeUtil.getSqlTime();
+        int result = service.updateTIme(ts);
+        System.out.println("result:"+result);
     }
 }
