@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.FoodMapper">
+    <resultMap id="foodResultMap" type="Food">
+        <id property="Id" column="id"/>
+        <result property="Title" column="title"/>
+        <result property="AuthorId" column="author_id"/>
+        <result property="businessTime" column="business_time"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="Longitude" column="longitude"/>
+        <result property="Latitude" column="latitude"/>
+        <result property="Address" column="address"/>
+        <result property="Time" column="create_time"/>
+        <result property="Content" column="content"/>
+        <association property="RecommendNumber" column="id" select="queryFoodRecommendNumber"/>
+        <collection property="ImageUrls" column="id" select="queryFoodImageUrls" />
+    </resultMap>
+
+    <resultMap id="foodQueryByTitleResultMap" type="KeySearchResult">
+        <id property="id" column="id"/>
+        <result property="describe" column="title"/>
+    </resultMap>
+    <!--查询的字段-->
+    <sql id="foodColumn">
+        id,title,author_id,business_time,phone_number,content,longitude,latitude,address,create_time
+    </sql>
+
+    <!--查询最新的美食-->
+    <select id="queryLatestFood" resultMap="foodResultMap">
+        SELECT <include refid="foodColumn"/>
+        FROM t_food
+        WHERE status = 0
+        ORDER BY create_time DESC
+        LIMIT #{startPage},#{pageSize}
+    </select>
+
+    <!--查询美食周排行榜-->
+    <select id="queryRankWeekFood" resultMap="foodResultMap">
+        SELECT <include refid="foodColumn"/>
+        FROM t_food
+        WHERE status = 0
+        AND YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+        ORDER BY (SELECT COUNT(*) FROM t_recommend GROUP BY food_id)
+        LIMIT #{startPage},#{pageSize}
+    </select>
+
+    <!--查询美食月排行榜-->
+    <select id="queryRankMonthFood" resultMap="foodResultMap">
+        SELECT <include refid="foodColumn"/>
+        FROM t_food
+        WHERE status = 0
+        AND YEARWEEK(date_format(create_time,'%Y-%m-%d')) = YEARWEEK(now())
+        ORDER BY (SELECT COUNT(*) FROM t_recommend GROUP BY food_id)
+        LIMIT #{startPage},#{pageNumber}
+    </select>
+    <!--查询美食图的图片地址-->
+    <select id="queryFoodImageUrls" resultType="String">
+        SELECT  imageUrl FROM t_image_map
+        WHERE food_id = #{id}
+    </select>
+
+    <!--查询美食推荐数-->
+    <select id="queryFoodRecommendNumber" resultType="int">
+        SELECT COUNT(food_id) FROM t_recommend WHERE food_id = #{foodId};
+    </select>
+
+    <!--添加标签List-->
+    <insert id="insertTags">
+        INSERT IGNORE INTO t_tag (tag_name)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </insert>
+
+    <!--添加图片地址-->
+    <insert id="insertImages">
+        INSERT INTO t_image_map (food_id,imageUrl)
+        VALUES
+        <foreach collection="images" index="index" item="item" separator=",">
+            (#{foodId},#{item})
+        </foreach>
+    </insert>
+
+    <!--添加标签美食关系-->
+    <insert id="insertTagRelationship">
+        INSERT INTO t_relationship_food_tag (food_id,tag_id)
+        VALUES
+        <foreach collection="tags" index="index" item="item" separator=",">
+            (#{foodId},(select id from t_tag where tag_name=#{item}))
+        </foreach>
+    </insert>
+
+    <select id="queryTags" resultType="String">
+        SELECT tag_name FROM t_tag
+        WHERE <foreach collection="tagsId" index="index" item="item" separator=" OR ">
+        id = #{item}
+        </foreach>
+    </select>
+
+    <!--插入美食-->
+    <insert id="insertFood" parameterType="Food">
+        INSERT INTO t_food (id,title,author_id,longitude,latitude,address,create_time,content,city_code,business_time,phone_number)
+        values (#{food.Id},#{food.Title},#{food.AuthorId},#{food.Longitude},#{food.Latitude},#{food.Address},#{food.Time},#{food.Content},#{food.cityCode},#{food.businessTime},#{food.phoneNumber})
+    </insert>
+
+    <select id="queryByKey" resultMap="foodQueryByTitleResultMap">
+        SELECT id,title FROM t_food
+        WHERE status = 0
+        AND title LIKE CONCAT('%',#{keys},'%')
+        LIMIT #{startPage},#{pageSize}
+    </select>
+
+    <select id="queryByKeys" resultMap="foodQueryByTitleResultMap" >
+        SELECT id,title FROM t_food
+        WHERE status = 0
+        AND <foreach collection="keyList" index="index" item="item" open="(" separator="OR" close=")">
+        title LIKE CONCAT('%',#{item},'%')
+    </foreach>
+        LIMIT #{startPage},#{pageSize}
+    </select>
+
+    <select id="queryInfoByKeys" resultMap="foodQueryByTitleResultMap" >
+        SELECT id,title FROM t_food
+        WHERE status = 0
+        AND <foreach collection="options" index="index" item="item" open="(" separator="OR" close=")">
+            title LIKE CONCAT('%',#{item},'%')
+        </foreach>
+    </select>
+
+    <!--根据id 查找美食-->
+    <select id="queryOneById" resultMap="foodResultMap">
+        SELECT <include refid="foodColumn"/>
+        FROM t_food
+        WHERE id=#{foodId}
+    </select>
+
+</mapper>
