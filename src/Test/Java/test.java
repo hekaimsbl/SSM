@@ -1,5 +1,6 @@
 
 import Service.FoodService;
+import Utils.Print;
 import Utils.TimeUtil;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,10 @@ public class test {
 
     @org.junit.Test
     public void test() {
+        Print.msg("hello");
     }
+
     @org.junit.Test
-    public void TimeTest(){
-        Timestamp ts = TimeUtil.getSqlTime();
-        int result = service.updateTIme(ts);
-        System.out.println("result:"+result);
+    public void TimeTest() {
     }
 }

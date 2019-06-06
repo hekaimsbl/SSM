@@ -1,17 +1,19 @@
-package Gson;
+package Utils;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * @Author Hekai
  * @Date 2019/3/24 17:01
  * @Description TODO
  **/
-public class ApiResult<T> {
-    @SerializedName("status")
+public class ApiResult<T> implements Serializable {
+    @SerializedName("status_code")
     private int Status;
 
-    @SerializedName("err")
+    @SerializedName("err_msg")
     private String Error;
 
     @SerializedName("data")

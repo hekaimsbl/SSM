@@ -1,4 +1,4 @@
-package com.example.hekai.xunw.bean;
+package Entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @author hekaimsbl@gmail.com
  * @date 2019/4/24
  **/
-public class FoodDownload {
+public class FoodDetails {
     @SerializedName("id")
     private String FoodId;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RequestTestController {
 
     @GetMapping()
-    public String TestString(){
+    public String TestString() {
         return "this is a test string. Time:2017-10-29 20:42:00";
     }
 }

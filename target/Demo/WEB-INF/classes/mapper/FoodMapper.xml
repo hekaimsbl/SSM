@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.FoodMapper">
+    <resultMap id="foodResultMap" type="Food">
+        <id property="Id" column="id"/>
+        <result property="Title" column="title"/>
+        <result property="AuthorId" column="author_id"/>
+        <result property="Longitude" column="longitude"/>
+        <result property="Latitude" column="latitude"/>
+        <result property="Address" column="address"/>
+        <result property="Time" column="create_time"/>
+    </resultMap>
+
+    <sql id="foodColumns">${food}.id,${food}.title,${food}.author_id,${food}.create_time</sql>
+
+    <insert id="insertFood" parameterType="Entity.Food">
+        insert into food(id,title,author_id,longitude,latitude,imageUrl,address,create_time)
+        values (#{Id},#{Title},#{AuthorId},#{Longitude},#{Latitude},#{ImageUrl},#{Address},#{Time})
+    </insert>
+
+    <update id="updateTime">
+        update food set create_time = #{ts}
+        where id = 101
+    </update>
+
+    <!--查询最新发布的美食-->
+    <select id="queryFoodByLatestTime" resultMap="foodResultMap">
+        select id,title,author_id,create_time from food
+        order by create_time desc
+    </select>
+</mapper>

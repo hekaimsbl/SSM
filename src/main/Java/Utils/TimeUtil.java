@@ -12,9 +12,9 @@ import java.util.Date;
  * @Description TODO
  **/
 public class TimeUtil {
-    public static Timestamp getSqlTime(){
+    public static Timestamp getSqlTime() {
         Date ud = new Date();
-        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String a = sp.format(new Date());
         try {
             ud = sp.parse(a);
@@ -22,36 +22,36 @@ public class TimeUtil {
             e.printStackTrace();
         }
         Timestamp st = new Timestamp(ud.getTime());
-        System.out.println(st);
+        Date date = new Timestamp(new Date().getTime());
+        Print.msg(st.toString());
         return st;
     }
 
-    public static String stampToString(Date date){
+    public static String dateToString(Date date) {
         String dateStr;
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         dateStr = sdf.format(date);
-        System.out.println(dateStr);
         return dateStr;
     }
 
-    public static Date StringToDate(String str){
+    public static Date StringToDate(String str) {
         Date date = new Date();
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         try {
             date = sdf.parse(str);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return date;
     }
 
-    public static Date StampToDate(Date date){
+    public static Date StampToDate(Date date) {
         Date date1 = new Date();
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        try{
+        try {
             String a = sdf.format(date);
             date1 = sdf.parse(a);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return date1;

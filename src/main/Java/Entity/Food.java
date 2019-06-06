@@ -1,11 +1,15 @@
 package Entity;
 
 import com.google.gson.JsonElement;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import org.apache.ibatis.type.Alias;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author Hekai
@@ -13,20 +17,76 @@ import java.util.Date;
  * @Description TODO
  **/
 @Alias(value = "Food")
-public class Food implements Serializable{
-    private BigInteger Id;
+public class Food implements Serializable {
+    @SerializedName("id")
+    private String Id;
+
+    @SerializedName("title")
     private String Title;
-    private BigInteger AuthorId;
+
+    @SerializedName("author_id")
+    private String AuthorId;
+
+    @SerializedName("business_time")
+    private String businessTime;
+
+    @SerializedName("phone_number")
+    private String phoneNumber;
+
+    @SerializedName("user_name")
+    private String UserName;
+
+    @SerializedName("content")
+    private String Content;
+
+    @SerializedName("longitude")
     private Double Longitude;
+
+    @SerializedName("latitude")
     private Double Latitude;
+
+    @SerializedName("address")
     private String Address;
+
+    @SerializedName("city_code")
+    private String cityCode;
+
+    @SerializedName("create_time")
     private Date Time;
 
-    public BigInteger getId() {
+    @SerializedName("image_url")
+    @Nullable
+    private List<String> ImageUrls;
+
+    @SerializedName("tags")
+    @Nullable
+    private List<String> Tags;
+
+    @SerializedName("recommend_number")
+    @Expose(deserialize = false)
+    private int RecommendNumber;
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getId() {
         return Id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         Id = id;
     }
 
@@ -38,11 +98,11 @@ public class Food implements Serializable{
         Title = title;
     }
 
-    public BigInteger getAuthorId() {
+    public String getAuthorId() {
         return AuthorId;
     }
 
-    public void setAuthorId(BigInteger authorId) {
+    public void setAuthorId(String authorId) {
         AuthorId = authorId;
     }
 
@@ -76,5 +136,55 @@ public class Food implements Serializable{
 
     public void setTime(Date time) {
         Time = time;
+    }
+
+    @Nullable
+    public List<String> getImageUrls() {
+        return ImageUrls;
+    }
+
+    public void setImageUrls(@Nullable List<String> imageUrls) {
+        ImageUrls = imageUrls;
+    }
+
+    public int getRecommendNumber() {
+        return RecommendNumber;
+    }
+
+    public void setRecommendNumber(int recommendNumber) {
+        RecommendNumber = recommendNumber;
+    }
+
+    public String getContent() {
+        return Content;
+    }
+
+    public void setContent(String content) {
+        Content = content;
+    }
+
+    @Nullable
+    public List<String> getTags() {
+        return Tags;
+    }
+
+    public void setTags(@Nullable List<String> tags) {
+        Tags = tags;
+    }
+
+    public String getBusinessTime() {
+        return businessTime;
+    }
+
+    public void setBusinessTime(String businessTime) {
+        this.businessTime = businessTime;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

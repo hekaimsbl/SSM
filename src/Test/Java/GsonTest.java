@@ -1,3 +1,4 @@
+import Utils.ApiResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.junit.runner.RunWith;
@@ -5,7 +6,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Type;
-import Gson.*;
+
+import Utils.*;
 
 /**
  * @Author Hekai
@@ -18,8 +20,8 @@ import Gson.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GsonTest {
     @org.junit.Test
-    public void Test(){
-        ApiResult<GoodsInfoModel> apiResult = new ApiResult<GoodsInfoModel>();
+    public void Test() {
+        /*ApiResult<GoodsInfoModel> apiResult = new ApiResult<GoodsInfoModel>();
 
         GoodsInfoModel goodsInfoModel = new GoodsInfoModel();
         goodsInfoModel.setmPrice(20);
@@ -27,8 +29,8 @@ public class GsonTest {
 
         apiResult.setError("not_found");
         apiResult.setStatus(123);
-        apiResult.setData(goodsInfoModel);
-
+        //apiResult.setData(null);
+        //apiResult.setData(goodsInfoModel);
         Gson gson = new Gson();
         Type jsonType = new TypeToken<ApiResult<GoodsInfoModel>>(){}.getType();
         String jsonStr = gson.toJson(apiResult,jsonType);
@@ -39,7 +41,7 @@ public class GsonTest {
         StringBuffer sb = new StringBuffer();
         sb.append(apiResultt.getStatus() + "\n");
         sb.append(apiResultt.getError() + "\n");
-        sb.append(apiResultt.getData().getmPrice() + "\n");
-        System.out.println("fromJson:" + sb.toString());
+        //sb.append(apiResultt.getData().getmPrice() + "\n");
+        System.out.println("fromJson:" + sb.toString());*/
     }
 }
